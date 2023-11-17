@@ -1,0 +1,305 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+convertToMeters 1;
+
+// * * * Vertices distances * * *
+
+
+e 0.001; //Inlet and outlet length
+xres 0.3; //Reservoir
+yres 0.3;
+
+xch 0.2; //Channel
+ych 0.04;
+yinlet 0.005;
+youtlet 0.02;
+
+zmin 0;
+zmax 0.01;
+
+
+// * * * Mesh size * * *
+s1 100;   // x-direction
+s2 10;    // y-direction
+s3 1;     // z-direction
+
+// * * * Calc vertices * * *
+y0  #calc "$ych*0.5 - $yres*0.5";
+y1  #calc "0";
+y2  #calc "$ych*0.5 - $youtlet*0.5";
+y3  #calc "$ych*0.5 - $yinlet*0.5";
+y4  #calc "$ych*0.5 + $yinlet*0.5";
+y5  #calc "$ych*0.5 + $youtlet*0.5";
+y6  #calc "$ych";
+y7  #calc "$ych*0.5 + $yres*0.5";
+
+x1  #calc "0";
+x2  #calc "$xres";
+x3  #calc "$xres + $e";
+x4  #calc "$xres + $e + $xch";
+x5  #calc "$xres + $e + $xch + $e";
+x6  #calc "$xres + $e + $xch + $e + $xres";
+
+
+// * * * Vertices * * *
+vertices
+(
+    // * * * Block 1 * * *
+    ($x1   $y0  $zmin) // V0
+    ($x2   $y0  $zmin) // V1
+    ($x1   $y2  $zmin) // V2
+    ($x2   $y2  $zmin) // V3
+    ($x1   $y3  $zmin) // V4
+    ($x2   $y3  $zmin) // V5
+    ($x1   $y4  $zmin) // V6
+    ($x2   $y4  $zmin) // V7
+    ($x1   $y5  $zmin) // V8
+    ($x2   $y5  $zmin) // V9
+    ($x1   $y7  $zmin) // V10
+    ($x2   $y7  $zmin) // V11
+    ($x3   $y1  $zmin) // V12
+    ($x4   $y1  $zmin) // V13
+    ($x3   $y2  $zmin) // V14
+    ($x4   $y2  $zmin) // V15
+    ($x3   $y3  $zmin) // V16
+    ($x4   $y3  $zmin) // V17
+    ($x3   $y4  $zmin) // V18
+    ($x4   $y4  $zmin) // V19
+    ($x3   $y5  $zmin) // V20
+    ($x4   $y5  $zmin) // V21
+    ($x3   $y6  $zmin) // V22
+    ($x4   $y6  $zmin) // V23
+    ($x5   $y0  $zmin) // V24
+    ($x6   $y0  $zmin) // V25
+    ($x5   $y3  $zmin) // V26
+    ($x6   $y3  $zmin) // V27
+    ($x5   $y4  $zmin) // V28
+    ($x6   $y4  $zmin) // V29
+    ($x5   $y7  $zmin) // V30
+    ($x6   $y7  $zmin) // V31
+
+
+    // * * * Z vertices * * *
+    ($x1   $y0  $zmax) // V0-32
+    ($x2   $y0  $zmax) // V1-33
+    ($x1   $y2  $zmax) // V2-34
+    ($x2   $y2  $zmax) // V3-35
+    ($x1   $y3  $zmax) // V4-36
+    ($x2   $y3  $zmax) // V5-37
+    ($x1   $y4  $zmax) // V6-38
+    ($x2   $y4  $zmax) // V7-39
+    ($x1   $y5  $zmax) // V8-40
+    ($x2   $y5  $zmax) // V9-41
+    ($x1   $y7  $zmax) // V10-42
+    ($x2   $y7  $zmax) // V11-43
+    ($x3   $y1  $zmax) // V12-44
+    ($x4   $y1  $zmax) // V13-45
+    ($x3   $y2  $zmax) // V14-46
+    ($x4   $y2  $zmax) // V15-47
+    ($x3   $y3  $zmax) // V16-48
+    ($x4   $y3  $zmax) // V17-49
+    ($x3   $y4  $zmax) // V18-50
+    ($x4   $y4  $zmax) // V19-51
+    ($x3   $y5  $zmax) // V20-52
+    ($x4   $y5  $zmax) // V21-53
+    ($x3   $y6  $zmax) // V22-54
+    ($x4   $y6  $zmax) // V23-55
+    ($x5   $y0  $zmax) // V24-56
+    ($x6   $y0  $zmax) // V25-57
+    ($x5   $y3  $zmax) // V26-58
+    ($x6   $y3  $zmax) // V27-59
+    ($x5   $y4  $zmax) // V28-60
+    ($x6   $y4  $zmax) // V29-61
+    ($x5   $y7  $zmax) // V30-62
+    ($x6   $y7  $zmax) // V31-63
+);
+
+// * * * Blocks * * *
+blocks
+(
+    // * * * Block 1 * * *
+    hex (0 1 3 2 32 33 35 34) ($s1 20 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 2 * * *
+    hex (2 3 5 4 34 35 37 36) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 3 * * *
+    hex (4 5 7 6 36 37 39 38) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 4 * * *
+    hex (6 7 9 8 38 39 41 40) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 5 * * *
+    hex (8 9 11 10 40 41 43 42) ($s1 20 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 6 * * *
+    hex (12 13 15 14 44 45 47 46) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 7 * * *
+    hex (14 15 17 16 46 47 49 48) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 8 * * *
+    hex (16 17 19 18 48 49 51 50) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 9 * * *
+    hex (18 19 21 20 50 51 53 52) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 10 * * *
+    hex (20 21 23 22 52 53 55 54) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 11 * * *
+    hex (24 25 27 26 56 57 59 58) ($s1 20 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 12 * * *
+    hex (26 27 29 28 58 59 61 60) ($s1 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 13 * * *
+    hex (28 29 31 30 60 61 63 62) ($s1 20 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 14 * * *
+    hex (3 14 16 5 35 46 48 37) (2 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 15 * * *
+    hex (5 16 18 7 37 48 50 39)  (2 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 16 * * *
+    hex (7 18 20 9 39 50 52 41) (2 $s2 $s3) simpleGrading (1 1 1)
+
+    // * * * Block 17 * * *
+    hex (17 26 28 19 49 58 60 51) (2 $s2 $s3) simpleGrading (1 1 1)
+);
+
+// * * * Edges * * *
+edges
+(
+    // ... (if needed)
+);
+
+// * * * Boundary * * *
+boundary
+(
+    back
+    {
+        type empty;
+        faces
+        (
+            (0 1 3 2)
+            (2 3 5 4)
+            (4 5 7 6)
+            (6 7 9 8)
+            (8 9 11 10)
+            (3 14 16 5)
+            (5 16 18 7)
+            (7 18 20 9)
+            (12 13 15 14)
+            (14 15 17 16)
+            (16 17 19 18)
+            (18 19 21 20)
+            (20 21 23 22)
+            (17 26 28 19)
+            (24 25 27 26)
+            (26 27 29 28)
+            (28 29 31 30)
+        );
+    }
+
+    front
+    {
+        type empty;
+        faces
+        (
+            (34 35 33 32)
+            (36 37 35 34)
+            (38 39 37 36)
+            (40 41 39 38)
+            (42 43 41 40)
+            (37 48 46 35)
+            (39 50 48 37)
+            (41 52 50 39)
+            (46 47 45 44)
+            (48 49 47 46)
+            (50 51 49 48)
+            (52 53 51 50)
+            (54 55 53 52)
+            (51 60 58 49)
+            (58 59 57 56)
+            (60 61 59 58)
+            (62 63 61 60)
+        );
+    }
+
+    walls
+    {
+        type wall;
+        faces
+        (
+            (10 11 43 42)
+            (11 9 41 43)
+            (9 20 52 41)
+            (20 22 54 52)
+            (22 23 55 54)
+            (23 21 53 55)
+            (21 19 51 53)
+            (19 28 60 51)
+            (28 30 62 60)
+            (30 31 63 62)
+            (25 24 56 57)
+            (24 26 58 56)
+            (26 17 49 58)
+            (17 15 47 49)
+            (15 13 45 47)
+            (13 12 44 45)
+            (12 14 46 44)
+            (14 3 35 46)
+            (3 1 33 35)
+            (1 0 33 32)
+        );
+    }
+
+    outletP
+    {
+        type patch;
+        faces
+        (
+            (0 2 34 32)
+            (2 4 36 34)
+            (4 6 38 36)
+            (6 8 40 38)
+            (8 10 42 40)
+        );
+    }
+
+    inletP
+    {
+        type patch;
+        faces
+        (
+            (31 29 61 63)
+            (29 27 59 61)
+            (27 25 57 59)
+        );
+    }
+);
+
+
+mergePatchPairs
+(
+    // ... (if needed)
+);
+
+// ************************************************************************* //
